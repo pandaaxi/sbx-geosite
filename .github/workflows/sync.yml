@@ -47,10 +47,15 @@ jobs:
     - name: Run script
       run: python ../main.py
       working-directory: ./rule/
-    - name: Commit and push config.json
+    - name: Set up Git authentication
       run: |
         git config --global user.email "action@github.com"
-        git config --global user.name "GitHub Action"
+        git config --global user.name "GitHub Actions"
+        git remote set-url origin https://$GH_TOKEN@github.com/pandaaxi/sbx-geosite.git
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    - name: Commit and push config.json
+      run: |
         git add ./rule/*.json
         git add ./rule/*.srs
         git add ./rule/*.txt
